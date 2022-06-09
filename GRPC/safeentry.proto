@@ -14,20 +14,23 @@
 
 syntax = "proto3";
 
-package calculator;
+package safeentry;
 
 // The greeting service definition.
-service Calculator {
-  rpc Add (Request) returns (Reply) {}
-  rpc Sub (Request) returns (Reply) {}
-  rpc Multiply (Request) returns (Reply) {}
-  rpc Divide (Request) returns (Reply) {}
+service SafeEntryService {
+  rpc Checkin (Request) returns (Reply) {}
+  rpc Checkout (Request) returns (Reply) {}
+  rpc History (Request) returns (Reply) {}
+  rpc Contacted (Request) returns (Reply) {}
 }
 
 // The request message containing the user's name.
 message Request {
-  int32 x = 1;
-  int32 y = 2;
+  string name = 1;
+  string nric = 2;
+  string location = 3;
+  string datetime = 4;
+
 }
 
 // The response message containing the greetings
