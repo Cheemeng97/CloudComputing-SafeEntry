@@ -17,24 +17,25 @@ from concurrent import futures
 import logging
 
 import grpc
-#TODO: import _pb2 and _pb2_grpc
+import safeentry_pb2
+import safeentry_pb2_grpc
 
-class Calculator(calculator_pb2_grpc.CalculatorServicer):
+class Safeentry(safeentry_pb2_grpc.SafeentryServicer):
 
-    def Add(self, request, context):
-        return calculator_pb2.Reply(res=request.x + request.y)
+    def Checkin(self, request, context):
+        return safeentry_pb2.Reply(res=request.x + request.y)
 
-    def Sub(self, request, context):
-        #TODO: Implement Sub() procedure
-        pass
+    # def Sub(self, request, context):
+    #     #TODO: Implement Sub() procedure
+    #     pass
 
-    def Multiply(self, request, context):
-        #TODO: Implement Multiply() procedure
-        pass
+    # def Multiply(self, request, context):
+    #     #TODO: Implement Multiply() procedure
+    #     pass
 
-    def Divide(self, request, context):
-        #TODO: Implement Divide() procedure
-        pass
+    # def Divide(self, request, context):
+    #     #TODO: Implement Divide() procedure
+    #     pass
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
