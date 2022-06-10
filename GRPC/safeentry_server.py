@@ -21,22 +21,11 @@ import grpc
 import safeentry_pb2
 import safeentry_pb2_grpc
 
-class Safeentry(safeentry_pb2_grpc.SafeentryServicer):
+class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
     def Checkin(self, request, context):
         return safeentry_pb2.CheckIn_Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check in successful')
 
-    # def Sub(self, request, context):
-    #     #TODO: Implement Sub() procedure
-    #     pass
-
-    # def Multiply(self, request, context):
-    #     #TODO: Implement Multiply() procedure
-    #     pass
-
-    # def Divide(self, request, context):
-    #     #TODO: Implement Divide() procedure
-    #     pass
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

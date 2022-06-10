@@ -27,20 +27,9 @@ def run():
     # of the code.
     with grpc.insecure_channel('localhost:50051') as channel:
         
-        stub = safeentry_pb2_grpc.SafeEntryStub(channel)
-
-        pass
-        response = stub.Add(safeentry_pb2.Request(x=5, y=6))
+        stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+        response = stub.Checkin(safeentry_pb2.CheckIn_Request(name="Chee Meng", nric="770z", location="Rivervale Mall", datetime="2018-12-12 12:12:12"))
         print("Check In Status" + str(response.res))
-
-        #TODO: invoke the Sub() procedure and print the result
-        pass
-
-        #TODO: invoke the Multipy() procedure and print the result
-        pass
-
-        #TODO: invoke the Divide() procedure and print the result
-        pass
 
 
 if __name__ == '__main__':
