@@ -17,8 +17,8 @@ class SafeEntryServiceStub(object):
         """
         self.Checkin = channel.unary_unary(
                 '/safeentry.SafeEntryService/Checkin',
-                request_serializer=safeentry__pb2.Request.SerializeToString,
-                response_deserializer=safeentry__pb2.Reply.FromString,
+                request_serializer=safeentry__pb2.CheckIn_Request.SerializeToString,
+                response_deserializer=safeentry__pb2.CheckIn_Reply.FromString,
                 )
         self.Checkout = channel.unary_unary(
                 '/safeentry.SafeEntryService/Checkout',
@@ -70,8 +70,8 @@ def add_SafeEntryServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'Checkin': grpc.unary_unary_rpc_method_handler(
                     servicer.Checkin,
-                    request_deserializer=safeentry__pb2.Request.FromString,
-                    response_serializer=safeentry__pb2.Reply.SerializeToString,
+                    request_deserializer=safeentry__pb2.CheckIn_Request.FromString,
+                    response_serializer=safeentry__pb2.CheckIn_Reply.SerializeToString,
             ),
             'Checkout': grpc.unary_unary_rpc_method_handler(
                     servicer.Checkout,
@@ -111,8 +111,8 @@ class SafeEntryService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/safeentry.SafeEntryService/Checkin',
-            safeentry__pb2.Request.SerializeToString,
-            safeentry__pb2.Reply.FromString,
+            safeentry__pb2.CheckIn_Request.SerializeToString,
+            safeentry__pb2.CheckIn_Reply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

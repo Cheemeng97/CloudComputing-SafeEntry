@@ -14,12 +14,28 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fsafeentry.proto\x12\tsafeentry\"I\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\"\x18\n\x05Reply\x12\x0f\n\x07message\x18\x01 \x01(\t2\xe1\x01\n\x10SafeEntryService\x12\x31\n\x07\x43heckin\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x32\n\x08\x43heckout\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x31\n\x07History\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x33\n\tContacted\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fsafeentry.proto\x12\tsafeentry\"Q\n\x0f\x43heckIn_Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\" \n\rCheckIn_Reply\x12\x0f\n\x07message\x18\x01 \x01(\t\"I\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\"\x18\n\x05Reply\x12\x0f\n\x07message\x18\x01 \x01(\t2\xf1\x01\n\x10SafeEntryService\x12\x41\n\x07\x43heckin\x12\x1a.safeentry.CheckIn_Request\x1a\x18.safeentry.CheckIn_Reply\"\x00\x12\x32\n\x08\x43heckout\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x31\n\x07History\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x33\n\tContacted\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x62\x06proto3')
 
 
 
+_CHECKIN_REQUEST = DESCRIPTOR.message_types_by_name['CheckIn_Request']
+_CHECKIN_REPLY = DESCRIPTOR.message_types_by_name['CheckIn_Reply']
 _REQUEST = DESCRIPTOR.message_types_by_name['Request']
 _REPLY = DESCRIPTOR.message_types_by_name['Reply']
+CheckIn_Request = _reflection.GeneratedProtocolMessageType('CheckIn_Request', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKIN_REQUEST,
+  '__module__' : 'safeentry_pb2'
+  # @@protoc_insertion_point(class_scope:safeentry.CheckIn_Request)
+  })
+_sym_db.RegisterMessage(CheckIn_Request)
+
+CheckIn_Reply = _reflection.GeneratedProtocolMessageType('CheckIn_Reply', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKIN_REPLY,
+  '__module__' : 'safeentry_pb2'
+  # @@protoc_insertion_point(class_scope:safeentry.CheckIn_Reply)
+  })
+_sym_db.RegisterMessage(CheckIn_Reply)
+
 Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), {
   'DESCRIPTOR' : _REQUEST,
   '__module__' : 'safeentry_pb2'
@@ -38,10 +54,14 @@ _SAFEENTRYSERVICE = DESCRIPTOR.services_by_name['SafeEntryService']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _REQUEST._serialized_start=30
-  _REQUEST._serialized_end=103
-  _REPLY._serialized_start=105
-  _REPLY._serialized_end=129
-  _SAFEENTRYSERVICE._serialized_start=132
-  _SAFEENTRYSERVICE._serialized_end=357
+  _CHECKIN_REQUEST._serialized_start=30
+  _CHECKIN_REQUEST._serialized_end=111
+  _CHECKIN_REPLY._serialized_start=113
+  _CHECKIN_REPLY._serialized_end=145
+  _REQUEST._serialized_start=147
+  _REQUEST._serialized_end=220
+  _REPLY._serialized_start=222
+  _REPLY._serialized_end=246
+  _SAFEENTRYSERVICE._serialized_start=249
+  _SAFEENTRYSERVICE._serialized_end=490
 # @@protoc_insertion_point(module_scope)

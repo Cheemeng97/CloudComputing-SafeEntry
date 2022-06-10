@@ -14,6 +14,7 @@
 """The Python implementation of the GRPC helloworld.Greeter server."""
 
 from concurrent import futures
+from email import message
 import logging
 
 import grpc
@@ -23,7 +24,7 @@ import safeentry_pb2_grpc
 class Safeentry(safeentry_pb2_grpc.SafeentryServicer):
 
     def Checkin(self, request, context):
-        return safeentry_pb2.Reply(res=request.x + request.y)
+        return safeentry_pb2.CheckIn_Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check in successful')
 
     # def Sub(self, request, context):
     #     #TODO: Implement Sub() procedure

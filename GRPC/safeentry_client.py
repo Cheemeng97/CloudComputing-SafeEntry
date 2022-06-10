@@ -18,19 +18,20 @@ from __future__ import print_function
 import logging
 
 import grpc
-#TODO: import _pb2 and _pb2_grpc
-
-
+import safeentry_pb2
+import safeentry_pb2_grpc
 
 def run():
     # NOTE(gRPC Python Team): .close() is possible on a channel and should be
     # used in circumstances in which the with statement does not fit the needs
     # of the code.
     with grpc.insecure_channel('localhost:50051') as channel:
-        #TODO: initiate the stub
+        
+        stub = safeentry_pb2_grpc.SafeEntryStub(channel)
+
         pass
-        response = stub.Add(calculator_pb2.Request(x=5, y=6))
-        print("The result of Add Function is: " + str(response.res))
+        response = stub.Add(safeentry_pb2.Request(x=5, y=6))
+        print("Check In Status" + str(response.res))
 
         #TODO: invoke the Sub() procedure and print the result
         pass

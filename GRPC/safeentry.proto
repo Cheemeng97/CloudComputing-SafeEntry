@@ -18,14 +18,14 @@ package safeentry;
 
 // The greeting service definition.
 service SafeEntryService {
-  rpc Checkin (Request) returns (Reply) {}
+  rpc Checkin (CheckIn_Request) returns (CheckIn_Reply) {}
   rpc Checkout (Request) returns (Reply) {}
   rpc History (Request) returns (Reply) {}
   rpc Contacted (Request) returns (Reply) {}
 }
 
-// The request message containing the user's name.
-message Request {
+// The request message containing check in details
+message CheckIn_Request {
   string name = 1;
   string nric = 2;
   string location = 3;
@@ -33,7 +33,19 @@ message Request {
 
 }
 
-// The response message containing the greetings
+// The response message containing status of check in and details.
+message CheckIn_Reply {
+  string message = 1;
+}
+
+message Request {
+  string name = 1;
+  string nric = 2;
+  string location = 3;
+  string datetime = 4;
+}
+
 message Reply {
   string message = 1;
 }
+
