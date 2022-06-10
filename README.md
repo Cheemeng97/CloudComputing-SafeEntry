@@ -2,4 +2,6 @@
 
 https://realpython.com/pysimplegui-python/
 
-$ python -m grpc_tools.protoc -I../../protos --python_out=. --grpc_python_out=. ../../protos/helloworld.proto
+To complie proto file:
+1. cd to GRPC
+2. python -m grpc_tools.protoc -I../GRPC --python_out=. --grpc_python_out=. safeentry.proto
