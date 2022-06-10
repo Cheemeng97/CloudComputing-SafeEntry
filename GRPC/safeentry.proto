@@ -35,5 +35,5 @@ message Request {
 
 // The response message containing the greetings
 message Reply {
-  int32 res = 1;
+  string message = 1;
 }

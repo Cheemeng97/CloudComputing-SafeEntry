@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fsafeentry.proto\x12\tsafeentry\"I\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\"\x14\n\x05Reply\x12\x0b\n\x03res\x18\x01 \x01(\x05\x32\xe1\x01\n\x10SafeEntryService\x12\x31\n\x07\x43heckin\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x32\n\x08\x43heckout\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x31\n\x07History\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x33\n\tContacted\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fsafeentry.proto\x12\tsafeentry\"I\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\"\x18\n\x05Reply\x12\x0f\n\x07message\x18\x01 \x01(\t2\xe1\x01\n\x10SafeEntryService\x12\x31\n\x07\x43heckin\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x32\n\x08\x43heckout\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x31\n\x07History\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x33\n\tContacted\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x62\x06proto3')
 
 
 
@@ -41,7 +41,7 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _REQUEST._serialized_start=30
   _REQUEST._serialized_end=103
   _REPLY._serialized_start=105
-  _REPLY._serialized_end=125
-  _SAFEENTRYSERVICE._serialized_start=128
-  _SAFEENTRYSERVICE._serialized_end=353
+  _REPLY._serialized_end=129
+  _SAFEENTRYSERVICE._serialized_start=132
+  _SAFEENTRYSERVICE._serialized_end=357
 # @@protoc_insertion_point(module_scope)
