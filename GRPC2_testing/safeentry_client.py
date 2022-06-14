@@ -32,6 +32,14 @@ def checkin(name, nric, location, checkin_dt):
         #print("Check In Status ===" + str(response))
 
 
+#Log in tab
+login_layout = [[sg.Text('NRIC', background_color='tan1')],
+               [sg.Input(key='-nric_in-')]
+               ,[sg.Text('Name', background_color='tan1')],
+                [sg.Input(key='-name_in-')]
+                ,[sg.Button("Login")]
+               ]
+
 #Check in out tab
 checkin_layout = [[
     sg.Text("SafeEntry Check In")], 
@@ -59,14 +67,29 @@ tab_layout = [[sg.TabGroup([[
     sg.Tab('Notification', notification_layout)]])]]
 
 # Create the window
+# window = sg.Window("Safe Entry", tab_layout)
+loginwindow = sg.Window("Login", login_layout)
 window = sg.Window("Safe Entry", tab_layout)
+
+nric = ''
+name = ''
 
 # Create an event loop
 while True:
-    event, values = window.read()
-    print(values)
+    login_event, login_values = loginwindow.read()
+    print(login_event, login_values)
 
-    place = ""
+    if login_event == 'Login':
+        nric = login_values['-nric_in-']
+        name = login_values['-name_in-']
+        loginwindow.close()
+        window
+
+
+    event, values = window.read()
+    print(event, values)
+
+    place = "Koufu"
     if values['-place1-']:
         place = "Koufu"
     elif values['-place2-']:
@@ -75,6 +98,8 @@ while True:
         place = "South Canteen"
     elif values['-place4-']:
         place = "North Canteen"
+    else:
+        place = "Koufu"
 
     now = datetime.datetime.now()
     checkin_dt = now.strftime("%Y-%m-%d %H:%M:%S")
@@ -85,7 +110,7 @@ while True:
 
     if event == "Checkin":
         logging.basicConfig()
-        checkin("client 1", "990Z", place, checkin_dt)
+        checkin(name, nric, place, checkin_dt)
         print("CHECKIN successful")
 
     if event == "Checkout":

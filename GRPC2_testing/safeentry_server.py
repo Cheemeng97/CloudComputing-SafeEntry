@@ -29,10 +29,9 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
         #add request data into pandas dataframe
         df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt'])
         df.loc[0] = [request.name, request.nric, request.location, request.datetime, None]
-
+        
         #write dataframe to csv file
         df.to_csv('./data.csv', mode='a', index=False, header=False)
-        
         return safeentry_pb2.CheckIn_Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check in successful')
 
 def serve():
