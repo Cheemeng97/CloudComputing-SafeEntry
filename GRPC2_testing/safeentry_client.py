@@ -23,6 +23,8 @@ import safeentry_pb2_grpc
 
 import PySimpleGUI as sg
 
+import datetime
+
 def checkin(name, nric, location, checkin_dt):
     with grpc.insecure_channel('localhost:50052') as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
@@ -74,17 +76,20 @@ while True:
     elif values['-place4-']:
         place = "North Canteen"
 
+    now = datetime.datetime.now()
+    checkin_dt = now.strftime("%Y-%m-%d %H:%M:%S")
+
     # End program if user closes window 
     if event == sg.WIN_CLOSED:
         break
 
     if event == "Checkin":
         logging.basicConfig()
-        checkin("client 1", "990Z", place, "2018-01-01T00:00:00Z")
-        print("checkin successful")
+        checkin("client 1", "990Z", place, checkin_dt)
+        print("CHECKIN successful")
 
     if event == "Checkout":
-        print("checkout")
+        print("CHECKOUT successful")
 
 # if __name__ == '__main__':
 #     logging.basicConfig()

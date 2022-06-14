@@ -1,4 +1,6 @@
 name,nric,location,checkin_dt,checkout_dt
 John,770z,Rivervale Mall,2018-12-12 12:12:12,
-client 1,990Z,Foodgle,2018-01-01T00:00:00Z,
-
+client 1,990Z,Koufu,2022-06-14 11:08:33,
+client 1,990Z,Foodgle,2022-06-14 11:08:37,
+client 1,990Z,South Canteen,2022-06-14 11:08:39,
+client 1,990Z,North Canteen,2022-06-14 11:08:41,
