@@ -1,19 +1,19 @@
-name,nric,location,checkin_dt,checkout_dt
-chee meng,770Z,Foodgle,6/14/2022 13:06,6/14/2022 13:45
-chee meng,770Z,South Canteen,6/14/2022 13:06,6/14/2022 13:45
-chee meng,770Z,North Canteen,6/14/2022 13:06,6/14/2022 13:45
-asdf,234,Koufu,6/14/2022 13:14,6/14/2022 13:45
-asdf,234,Foodgle,6/14/2022 13:14,6/14/2022 13:45
-audrey,0,Koufu,6/14/2022 13:45,6/14/2022 13:45
-Auds,1777,Koufu,6/14/2022 17:11,6/14/2022 17:11
-auds,auds,Koufu,2022-06-14 17:22:18,2022-06-14 17:22:19
-auds,auds,Foodgle,2022-06-14 17:22:47,2022-06-14 17:22:50
-auds,auds,Foodgle,2022-06-14 17:29:04,2022-06-14 17:29:10
-auds,auds,North Canteen,2022-06-14 17:29:08,2022-06-14 17:29:10
-cheemeng,ch,Foodgle,2022-06-14 17:30:25,2022-06-14 17:30:27
-auds,auds,South Canteen,2022-06-14 17:31:06,2022-06-14 17:31:17
-Audrey,kcdnk,Koufu,6/14/2022 17:05,
-AudreyQuisit,123,Koufu,6/14/2022 17:09,
-auds,jsjs,Koufu,6/14/2022 17:15,
-Auds,jdkj,Koufu,6/14/2022 17:16,
-cheemeng,ch,Koufu,2022-06-14 17:31:13,2022-06-14 17:31:20
+name,nric,location,checkin_dt,checkout_dt,affected
+chee meng,770Z,Foodgle,6/14/2022 13:06,6/14/2022 13:45,
+chee meng,770Z,South Canteen,6/14/2022 13:06,6/14/2022 13:45,
+chee meng,770Z,North Canteen,6/14/2022 13:06,6/14/2022 13:45,
+asdf,234,Koufu,6/14/2022 13:14,6/14/2022 13:45,
+asdf,234,Foodgle,6/14/2022 13:14,6/14/2022 13:45,
+audrey,0,Koufu,6/14/2022 13:45,6/14/2022 13:45,
+Auds,1777,Koufu,6/14/2022 17:11,6/14/2022 17:11,
+auds,auds,Koufu,6/14/2022 17:22,6/14/2022 17:22,
+auds,auds,Foodgle,6/14/2022 17:22,6/14/2022 17:22,
+auds,auds,Foodgle,6/14/2022 17:29,6/14/2022 17:29,
+auds,auds,North Canteen,6/14/2022 17:29,6/14/2022 17:29,
+cheemeng,ch,Foodgle,6/14/2022 17:30,6/14/2022 17:30,
+auds,auds,South Canteen,6/14/2022 17:31,6/14/2022 17:31,
+cheemeng,ch,Koufu,6/14/2022 17:31,6/14/2022 17:31,
+Audrey,kcdnk,Koufu,6/14/2022 17:05,,
+AudreyQuisit,123,Koufu,6/14/2022 17:09,,
+auds,jsjs,Koufu,6/14/2022 17:15,,
+Auds,jdkj,Koufu,6/14/2022 17:16,,

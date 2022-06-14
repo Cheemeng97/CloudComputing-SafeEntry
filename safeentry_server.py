@@ -20,6 +20,7 @@ import grpc
 import safeentry_pb2
 import safeentry_pb2_grpc
 import pandas as pd
+import datetime
 
 
 class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
@@ -27,8 +28,8 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
     def Checkin(self, request, context):
 
         #add request data into pandas dataframe
-        df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt'])
-        df.loc[0] = [request.name, request.nric, request.location, request.datetime, None]
+        df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected'])
+        df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None]
         
         #write dataframe to csv file
         df.to_csv('./data.csv', mode='a', index=False, header=False)
@@ -36,26 +37,38 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
     def Checkout(self, request, context):
         current_records = pd.read_csv('data.csv')
-        print(current_records)
+        #print(current_records)
         checkedin_records = current_records[current_records['checkout_dt'].isnull()]
         checkedout_records = current_records[current_records['checkout_dt'].notnull()]
-        print(checkedin_records)
-
+        #print(checkedin_records)
 
         #filter by user 
-        
         try:
             #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
             checkedin_records['checkout_dt']= (checkedin_records.loc[checkedin_records['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
-            print('break')
+            #print('break')
             updated_records = checkedout_records.append(checkedin_records, ignore_index=True)
-            print(updated_records)
+            #print(updated_records)
+            #updated_records
             updated_records.to_csv('./data.csv', index=False)
+
         except:
             print("you have not checked in")
-        
+        return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
+
+    def Contacted(self, request, context):
+        current_records = pd.read_csv('data.csv')
+        affectedrecords = current_records.loc[current_records['location'] == request.location]
+        #unaffectedrecords = current_records['location']!=request.location
+        affecteddate = datetime.datetime.strptime(request.datetime, "%m/%d/%Y %H:%M")
+        startdate = datetime.datetime.strptime(affectedrecords['checkin_dt'].astype("str"), "%m/%d/%Y %H:%M")
+        enddate = datetime.datetime.strptime(affectedrecords['checkout_dt'].astype("str"), "%m/%d/%Y %H:%M")
+        print(affectedrecords)
+        affectedrecords['checkout_dt']= (affectedrecords.loc[startdate <= affecteddate <= enddate])['checkout_dt'].fillna("Y")
+        print(affectedrecords)
 
         return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
+
 
 
             

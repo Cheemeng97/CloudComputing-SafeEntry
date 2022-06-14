@@ -37,6 +37,12 @@ def checkout(name, nric, location, checkout_dt):
         response = stub.Checkout(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
         #print("Check In Status ===" + str(response))
 
+def contact(name, nric, location, checkout_dt):
+    with grpc.insecure_channel('localhost:50053') as channel:
+        stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+        response = stub.Contacted(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
+        #print("Check In Status ===" + str(response))
+
 
 
 #Log in tab
@@ -116,15 +122,14 @@ while True:
         print(admin_event, admin_values)
 
         # End program if user closes window 
-        if event == sg.WIN_CLOSED:
+        if admin_event == sg.WIN_CLOSED:
             break
 
-        if event == "Notify":
-            
+        if admin_event == "Notify":
+            location = admin_values['-closecontact_location-']
+            dateandtime = admin_values['-closecontact_time-']
+            contact(None, None, location, dateandtime)
             print("Notify Success")
-
-
-
 
     else:
         event, values = window.read()
