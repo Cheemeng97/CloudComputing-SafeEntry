@@ -42,8 +42,8 @@ while True:
         break
 
     if event == "Checkin":
-        break
+        print("checkin")
     if event == "Checkout":
-        break
+        print("checkout")
     
-window.close()
+# window.close()
