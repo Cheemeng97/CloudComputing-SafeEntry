@@ -51,7 +51,18 @@ checkin_layout = [[
     [sg.Button("Checkout")]
     ]
 
-#History tab
+#History tab with table
+# history_layout = [[sg.Text("History")],
+#                     [sg.Table(values=[['', '', '', '', '']],
+#                                 headings=['Name', 'NRIC', 'Location', 'Check In', 'Check Out'],
+#                                 auto_size_cells=False,
+#                                 display_row_numbers=True,
+#                                 num_rows=10,
+#                                 row_height=35,
+#                                 alternating_row_color='lightblue',
+#                                 key='-table-')],
+#                     [sg.Button("Refresh")]
+#                     ]
 history_layout = [[sg.Text('History', background_color='tan1')],
                [sg.Input(key='-in2-')]]
 
