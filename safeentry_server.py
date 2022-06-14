@@ -24,7 +24,7 @@ import pandas as pd
 
 class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
-   def Checkin(self, request, context):
+    def Checkin(self, request, context):
 
         #add request data into pandas dataframe
         df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt'])
@@ -34,10 +34,36 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
         df.to_csv('./data.csv', mode='a', index=False, header=False)
         return safeentry_pb2.CheckIn_Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check in successful')
 
+    def Checkout(self, request, context):
+        current_records = pd.read_csv('data.csv')
+        print(current_records)
+        checkedin_records = current_records[current_records['checkout_dt'].isnull()]
+        checkedout_records = current_records[current_records['checkout_dt'].notnull()]
+        print(checkedin_records)
+
+
+        #filter by user 
+        
+        try:
+            #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
+            checkedin_records['checkout_dt']= (checkedin_records.loc[checkedin_records['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
+            print('break')
+            updated_records = checkedout_records.append(checkedin_records, ignore_index=True)
+            print(updated_records)
+            updated_records.to_csv('./data.csv', index=False)
+        except:
+            print("you have not checked in")
+        
+
+        return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
+
+
+            
+
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     safeentry_pb2_grpc.add_SafeEntryServiceServicer_to_server(Safeentry(), server)
-    server.add_insecure_port('[::]:50052')
+    server.add_insecure_port('[::]:50053')
     server.start()
     server.wait_for_termination()
 

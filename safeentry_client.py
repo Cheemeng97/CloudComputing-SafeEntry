@@ -26,10 +26,17 @@ import PySimpleGUI as sg
 import datetime
 
 def checkin(name, nric, location, checkin_dt):
-    with grpc.insecure_channel('localhost:50052') as channel:
+    with grpc.insecure_channel('localhost:50053') as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt))
         #print("Check In Status ===" + str(response))
+
+def checkout(name, nric, location, checkout_dt):
+    with grpc.insecure_channel('localhost:50053') as channel:
+        stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+        response = stub.Checkout(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
+        #print("Check In Status ===" + str(response))
+
 
 
 #Log in tab
@@ -125,6 +132,7 @@ while True:
         print("CHECKIN successful")
 
     if event == "Checkout":
+        checkout(name, nric, place, checkin_dt)
         print("CHECKOUT successful")
 
 # if __name__ == '__main__':
