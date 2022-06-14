@@ -77,17 +77,25 @@ history_layout = [[sg.Text('History', background_color='tan1')],
 notification_layout = [[sg.Text('Notification', background_color='tan1')],
                [sg.Input(key='-in2-')]]
 
+admin_layout = [[sg.Text('Location', background_color='tan1')],
+               [sg.Input(key='-closecontact_location-')]
+               ,[sg.Text('DateTime', background_color='tan1')],
+                [sg.Input(key='-closecontact_time-')]
+                ,[sg.Button("Notify")]
+               ]
+
 
 # tab group
 tab_layout = [[sg.TabGroup([[
     sg.Tab('Check In', checkin_layout), 
     sg.Tab('History', history_layout),
-    sg.Tab('Notification', notification_layout)]])]]
+    sg.Tab('Notification', notification_layout)]])]] 
 
 # Create the window
 # window = sg.Window("Safe Entry", tab_layout)
 loginwindow = sg.Window("Login", login_layout)
 window = sg.Window("Safe Entry", tab_layout)
+adminwindow = sg.Window("Admin",admin_layout)
 
 nric = ''
 name = ''
@@ -102,38 +110,53 @@ while True:
         name = login_values['-name_in-']
         loginwindow.close()
         window
+    
+    if name == "admin":
+        admin_event, admin_values = adminwindow.read()
+        print(admin_event, admin_values)
+
+        # End program if user closes window 
+        if event == sg.WIN_CLOSED:
+            break
+
+        if event == "Notify":
+            
+            print("Notify Success")
 
 
-    event, values = window.read()
-    print(event, values)
 
-    place = "Koufu"
-    if values['-place1-']:
-        place = "Koufu"
-    elif values['-place2-']:
-        place = "Foodgle"
-    elif values['-place3-']:
-        place = "South Canteen"
-    elif values['-place4-']:
-        place = "North Canteen"
+
     else:
+        event, values = window.read()
+        print(event, values)
+
         place = "Koufu"
+        if values['-place1-']:
+            place = "Koufu"
+        elif values['-place2-']:
+            place = "Foodgle"
+        elif values['-place3-']:
+            place = "South Canteen"
+        elif values['-place4-']:
+            place = "North Canteen"
+        else:
+            place = "Koufu"
 
-    now = datetime.datetime.now()
-    checkin_dt = now.strftime("%Y-%m-%d %H:%M:%S")
+        now = datetime.datetime.now()
+        checkin_dt = now.strftime("%Y-%m-%d %H:%M:%S")
 
-    # End program if user closes window 
-    if event == sg.WIN_CLOSED:
-        break
+        # End program if user closes window 
+        if event == sg.WIN_CLOSED:
+            break
 
-    if event == "Checkin":
-        logging.basicConfig()
-        checkin(name, nric, place, checkin_dt)
-        print("CHECKIN successful")
+        if event == "Checkin":
+            logging.basicConfig()
+            checkin(name, nric, place, checkin_dt)
+            print("CHECKIN successful")
 
-    if event == "Checkout":
-        checkout(name, nric, place, checkin_dt)
-        print("CHECKOUT successful")
+        if event == "Checkout":
+            checkout(name, nric, place, checkin_dt)
+            print("CHECKOUT successful")
 
 # if __name__ == '__main__':
 #     logging.basicConfig()
