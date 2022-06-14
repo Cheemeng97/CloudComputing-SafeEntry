@@ -35,12 +35,15 @@ window = sg.Window("Safe Entry", tab_layout)
 # Create an event loop
 while True:
     event, values = window.read()
-    print(event, values)
-    # End program if user closes window or
-    # presses the OK button
+    print(values)
+
+    # End program if user closes window 
+    if event == sg.WIN_CLOSED:
+        break
+
     if event == "Checkin":
         break
     if event == "Checkout":
         break
-
+    
 window.close()
