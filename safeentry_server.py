@@ -69,7 +69,29 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
         return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
 
+    def History(self, request, context):
+        #read data from csv file and add into dataframe
+        df = pd.read_csv('./data.csv')
+        nric = request.nric
 
+        #filter dataframe by nric
+        df = df[df['nric'] == nric]
+        
+        #convert all data to string
+        df['name'] = df['name'].astype(str)
+        df['nric'] = df['nric'].astype(str)
+        df['location'] = df['location'].astype(str)
+        df['checkin_dt'] = df['checkin_dt'].astype(str)
+        df['checkout_dt'] = df['checkout_dt'].astype(str)
+
+        data = []
+        for index, row in df.iterrows():
+            data.append((safeentry_pb2.History_Item(name=row['name'], nric=row['nric'], location=row['location'], checkin_dt=row['checkin_dt'], checkout_dt=row['checkout_dt'])))
+
+        print(data)
+            
+        #return data array
+        return safeentry_pb2.History_Reply(histories=data)
 
             
 

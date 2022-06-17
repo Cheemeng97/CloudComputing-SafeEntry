@@ -20,7 +20,7 @@ package safeentry;
 service SafeEntryService {
   rpc Checkin (CheckIn_Request) returns (CheckIn_Reply) {}
   rpc Checkout (Request) returns (Reply) {}
-  rpc History (Request) returns (Reply) {}
+  rpc History (History_Request) returns (History_Reply) {}
   rpc Contacted (Request) returns (Reply) {}
 }
 
@@ -49,3 +49,18 @@ message Reply {
   string message = 1;
 }
 
+message History_Request {
+  string nric = 1;
+}
+
+message History_Reply {
+  repeated History_Item histories = 1;
+}
+
+message History_Item {
+  string name = 1;
+  string nric = 2;
+  string location = 3;
+  string checkin_dt = 4;
+  string checkout_dt = 5;
+}
