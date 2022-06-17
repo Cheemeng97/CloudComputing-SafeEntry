@@ -26,7 +26,8 @@ import PySimpleGUI as sg
 import datetime
 import pandas as pd
 import history_windows
-
+from tkinter import *
+sg.theme('DarkBlue13')
 
 def checkin(name, nric, location, checkin_dt):
     with grpc.insecure_channel('localhost:50053') as channel:
@@ -55,36 +56,44 @@ def history(nric):
         response = stub.History(safeentry_pb2.History_Request(nric=nric))
         #put response data into dataframe
         history_df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt'])
+
+        
+
         for i in range(len(response.histories)):
             history_df.loc[i] = [response.histories[i].name, response.histories[i].nric, response.histories[i].location, response.histories[i].checkin_dt, response.histories[i].checkout_dt]
-                
-            #add dataframe into array except header
+
+
+        history_df = history_df.sort_values(by='checkin_dt', ascending=False)
+               
         for i in range(len(history_df)):
-            if i == 0:
-                continue
             histories.append([history_df.iloc[i]['name'], history_df.iloc[i]['nric'], history_df.iloc[i]['location'], history_df.iloc[i]['checkin_dt'], history_df.iloc[i]['checkout_dt']])
             
         print(histories)
 
+
 #Log in tab
-login_layout = [[sg.Text('NRIC', background_color='tan1')],
+login_layout = [[sg.Text('NRIC')],
                [sg.Input(key='-nric_in-')]
-               ,[sg.Text('Name', background_color='tan1')],
+               ,[sg.Text('Name')],
                 [sg.Input(key='-name_in-')]
                 ,[sg.Button("Login")]
                ]
 
 #Check in out tab
-main_layout = [[
-    sg.Text("SafeEntry Check In")], 
+main_layout = [
+    [sg.Text("SafeEntry Check In")], 
     [sg.Radio('Koufu', 'place', default=True, key='-place1-') ,
            sg.Radio('Foodgle', 'place', key='-place2-')
            ,sg.Radio('South Canteen', 'place', key='-place3-')
            ,sg.Radio('North Canteen', 'place', key='-place4-')],
     [sg.Button("Checkin"), sg.Button("Checkout")], 
     [sg.Text("")], 
-    [sg.Button("Show Histories")],
+    [sg.Button('Show Histories')],
     ]
+
+centered_main_layout = [[sg.VPush()],
+              [sg.Push(), sg.Column(main_layout,element_justification='c'), sg.Push()],
+              [sg.VPush()]]
 
 #Group check in out tab
 group_checkin_layout = [[sg.Text("SafeEntry Group Check In")],
@@ -95,8 +104,6 @@ group_checkin_layout = [[sg.Text("SafeEntry Group Check In")],
             [sg.Input(key='-group_name_in-')],
             
             [sg.Button("Add people")],
-            
-            #need show what the user add!!!!!
 
             [sg.Radio('Koufu', 'place', default=True, key='-group_place1-') ,
             sg.Radio('Foodgle', 'place', key='-group_place2-'),
@@ -107,7 +114,7 @@ group_checkin_layout = [[sg.Text("SafeEntry Group Check In")],
            ]
 
 #Notification tab
-notification_layout = [[sg.Text('Notification', background_color='tan1')],
+notification_layout = [[sg.Text('Notification')],
                [sg.Input(key='-in2-')]]
 
 admin_layout = [[sg.Text('Location', background_color='tan1')],
@@ -120,13 +127,13 @@ admin_layout = [[sg.Text('Location', background_color='tan1')],
 
 # tab group
 tab_layout = [[sg.TabGroup([[
-    sg.Tab('Main Page', main_layout), 
+    sg.Tab('Main Page', centered_main_layout), 
     sg.Tab('Notification', notification_layout)]])]] 
 
 # Create the window
 # window = sg.Window("Safe Entry", tab_layout)
 loginwindow = sg.Window("Login", login_layout)
-window = sg.Window("Safe Entry", tab_layout)
+window = sg.Window("Safe Entry", tab_layout,grab_anywhere=True,)
 adminwindow = sg.Window("Admin",admin_layout)
 
 nric = ''
