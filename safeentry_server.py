@@ -59,14 +59,22 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
     def Contacted(self, request, context):
         current_records = pd.read_csv('data.csv')
         affectedrecords = current_records.loc[current_records['location'] == request.location]
-        #unaffectedrecords = current_records['location']!=request.location
+        unaffectedrecords = current_records[current_records['location']!=request.location]
+    
         affecteddate = datetime.datetime.strptime(request.datetime, "%m/%d/%Y %H:%M")
-        affectedrecords['checkin_dt'] =affectedrecords['checkin_dt'].astype("str")
-        startdate = datetime.datetime.strptime(affectedrecords['checkin_dt'], "%m/%d/%Y %H:%M")
-        enddate = datetime.datetime.strptime(affectedrecords['checkout_dt'].astype("str"), "%m/%d/%Y %H:%M")
-        print(affectedrecords)
-        affectedrecords['checkout_dt']= (affectedrecords.loc[startdate <= affecteddate <= enddate])['checkout_dt'].fillna("Y")
-        print(affectedrecords)
+        affectedrecords['checkin_dt']  =  pd.to_datetime(affectedrecords['checkin_dt'])
+        affectedrecords['checkout_dt']  =  pd.to_datetime(affectedrecords['checkout_dt'])
+        #print(affectedrecords.dtypes)
+        #print(affectedrecords)
+        try:
+            affectedrecords['affected']= (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'].fillna("Y")
+            #print(affectedrecords)
+            (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'] = "Y"
+            #print(affectedrecords)
+            updated_records = affectedrecords.append(unaffectedrecords, ignore_index=True)
+            updated_records.to_csv('./data.csv', index=False)
+        except:
+            print("ERROR")
 
         return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
 
