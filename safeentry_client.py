@@ -81,8 +81,8 @@ main_layout = [[
            sg.Radio('Foodgle', 'place', key='-place2-')
            ,sg.Radio('South Canteen', 'place', key='-place3-')
            ,sg.Radio('North Canteen', 'place', key='-place4-')],
-    [sg.Button("Checkin")], 
-    [sg.Button("Checkout")],
+    [sg.Button("Checkin"), sg.Button("Checkout")], 
+    [sg.Text("")], 
     [sg.Button("Show Histories")],
     ]
 

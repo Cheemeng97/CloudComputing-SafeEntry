@@ -10,9 +10,7 @@ def create(histories):
                                     num_rows=len(histories),
                                     row_height=35,
                                     justification='right',
-                                    alternating_row_color='lightblue',
-                                    key='-HISTORY_TABLE-')],
-                        [sg.Button("Refresh")]
+                                    key='-HISTORY_TABLE-')]
     ]
 
     window = sg.Window("Safe Entry", history_layout)
@@ -22,5 +20,6 @@ def create(histories):
         print(event, values)
         if event == sg.WIN_CLOSED:
             break
+
 
     window.close()
