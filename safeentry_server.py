@@ -27,34 +27,44 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
     def Checkin(self, request, context):
 
-        #add request data into pandas dataframe
-        df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected'])
-        df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None]
-        
-        #write dataframe to csv file
-        df.to_csv('./data.csv', mode='a', index=False, header=False)
-        return safeentry_pb2.CheckIn_Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check in successful')
+        #if failed to check in, return error message
+        try:
+            #add request data into pandas dataframe
+            df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected'])
+            df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None]
+            
+            #write dataframe to csv file
+            df.to_csv('./data.csv', mode='a', index=False, header=False)
+            return safeentry_pb2.CheckIn_Reply(message='\n Check in successful   ' + 'name: ' + request.name + '   nric: ' + request.nric + '   location: ' + request.location+ '   datetime: ' + request.datetime)
+        except:
+            return safeentry_pb2.CheckIn_Reply(message='\n Check in failed')
 
     def Checkout(self, request, context):
-        current_records = pd.read_csv('data.csv')
-        #print(current_records)
-        checkedin_records = current_records[current_records['checkout_dt'].isnull()]
-        checkedout_records = current_records[current_records['checkout_dt'].notnull()]
-        #print(checkedin_records)
 
-        #filter by user 
         try:
-            #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
-            checkedin_records['checkout_dt']= (checkedin_records.loc[checkedin_records['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
-            #print('break')
-            updated_records = checkedout_records.append(checkedin_records, ignore_index=True)
-            #print(updated_records)
-            #updated_records
-            updated_records.to_csv('./data.csv', index=False)
+            current_records = pd.read_csv('data.csv')
+            #print(current_records)
+            checkedin_records = current_records[current_records['checkout_dt'].isnull()]
+            checkedout_records = current_records[current_records['checkout_dt'].notnull()]
+            #print(checkedin_records)
 
+            #filter by user 
+            try:
+                #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
+                checkedin_records['checkout_dt']= (checkedin_records.loc[checkedin_records['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
+                #print('break')
+                updated_records = checkedout_records.append(checkedin_records, ignore_index=True)
+                #print(updated_records)
+                #updated_records
+                updated_records.to_csv('./data.csv', index=False)
+
+            except:
+                print("you have not checked in")
+
+            return safeentry_pb2.Reply(message='\n Check out successful   ' + 'name: ' + request.name + '   nric: ' + request.nric + '   location: ' + request.location+ '   datetime: ' + request.datetime)
         except:
-            print("you have not checked in")
-        return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
+            return safeentry_pb2.Reply(message='\n Check Out failed')
+        
 
     def Contacted(self, request, context):
         current_records = pd.read_csv('data.csv')

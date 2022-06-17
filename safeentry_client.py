@@ -27,20 +27,24 @@ import datetime
 import pandas as pd
 import history_windows
 from tkinter import *
+
+import ctypes
+
 sg.theme('DarkBlue13')
 
 def checkin(name, nric, location, checkin_dt):
     with grpc.insecure_channel('localhost:50053') as channel:
 
+        
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt))
-        #print("Check In Status ===" + str(response))
+        ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
 
 def checkout(name, nric, location, checkout_dt):
     with grpc.insecure_channel('localhost:50053') as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkout(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
-        #print("Check In Status ===" + str(response))
+        ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check Out Status", 0)
 
 def contact(name, nric, location, checkout_dt):
     with grpc.insecure_channel('localhost:50053') as channel:
