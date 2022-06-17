@@ -201,6 +201,7 @@ while True:
             break
 
         if event == 'Show Histories':
+            histories = []
             history(nric)
             history_windows.create(histories)
 
