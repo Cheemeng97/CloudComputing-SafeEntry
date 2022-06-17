@@ -24,9 +24,14 @@ import safeentry_pb2_grpc
 import PySimpleGUI as sg
 
 import datetime
+import pandas as pd
+import history_windows
+from tkinter import *
+sg.theme('DarkBlue13')
 
 def checkin(name, nric, location, checkin_dt):
     with grpc.insecure_channel('localhost:50053') as channel:
+
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt))
         #print("Check In Status ===" + str(response))
@@ -43,44 +48,73 @@ def contact(name, nric, location, checkout_dt):
         response = stub.Contacted(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
         #print("Check In Status ===" + str(response))
 
+# #global variable for history
+histories = []
+def history(nric):
+    with grpc.insecure_channel('localhost:50053') as channel:
+        stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+        response = stub.History(safeentry_pb2.History_Request(nric=nric))
+        #put response data into dataframe
+        history_df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt'])
+
+        
+
+        for i in range(len(response.histories)):
+            history_df.loc[i] = [response.histories[i].name, response.histories[i].nric, response.histories[i].location, response.histories[i].checkin_dt, response.histories[i].checkout_dt]
+
+
+        history_df = history_df.sort_values(by='checkin_dt', ascending=False)
+               
+        for i in range(len(history_df)):
+            histories.append([history_df.iloc[i]['name'], history_df.iloc[i]['nric'], history_df.iloc[i]['location'], history_df.iloc[i]['checkin_dt'], history_df.iloc[i]['checkout_dt']])
+            
+        print(histories)
 
 
 #Log in tab
-login_layout = [[sg.Text('NRIC', background_color='tan1')],
+login_layout = [[sg.Text('NRIC')],
                [sg.Input(key='-nric_in-')]
-               ,[sg.Text('Name', background_color='tan1')],
+               ,[sg.Text('Name')],
                 [sg.Input(key='-name_in-')]
                 ,[sg.Button("Login")]
                ]
 
 #Check in out tab
-checkin_layout = [[
-    sg.Text("SafeEntry Check In")], 
+main_layout = [
+    [sg.Text("SafeEntry Check In")], 
     [sg.Radio('Koufu', 'place', default=True, key='-place1-') ,
            sg.Radio('Foodgle', 'place', key='-place2-')
            ,sg.Radio('South Canteen', 'place', key='-place3-')
            ,sg.Radio('North Canteen', 'place', key='-place4-')],
-    [sg.Button("Checkin")], 
-    [sg.Button("Checkout")]
+    [sg.Button("Checkin"), sg.Button("Checkout")], 
+    [sg.Text("")], 
+    [sg.Button('Show Histories')],
     ]
 
-#History tab with table
-# history_layout = [[sg.Text("History")],
-#                     [sg.Table(values=[['', '', '', '', '']],
-#                                 headings=['Name', 'NRIC', 'Location', 'Check In', 'Check Out'],
-#                                 auto_size_cells=False,
-#                                 display_row_numbers=True,
-#                                 num_rows=10,
-#                                 row_height=35,
-#                                 alternating_row_color='lightblue',
-#                                 key='-table-')],
-#                     [sg.Button("Refresh")]
-#                     ]
-history_layout = [[sg.Text('History', background_color='tan1')],
-               [sg.Input(key='-in2-')]]
+centered_main_layout = [[sg.VPush()],
+              [sg.Push(), sg.Column(main_layout,element_justification='c'), sg.Push()],
+              [sg.VPush()]]
+
+#Group check in out tab
+group_checkin_layout = [[sg.Text("SafeEntry Group Check In")],
+            [sg.Text('NRIC', background_color='tan1')], 
+            [sg.Input(key='-group_nric_in-')],
+            
+            [sg.Text('Name', background_color='tan1')],
+            [sg.Input(key='-group_name_in-')],
+            
+            [sg.Button("Add people")],
+
+            [sg.Radio('Koufu', 'place', default=True, key='-group_place1-') ,
+            sg.Radio('Foodgle', 'place', key='-group_place2-'),
+            sg.Radio('South Canteen', 'place', key='-group_place3-'),
+            sg.Radio('North Canteen', 'place', key='-group_place4-')], 
+                
+            [sg.Button("Group Checkin")]
+           ]
 
 #Notification tab
-notification_layout = [[sg.Text('Notification', background_color='tan1')],
+notification_layout = [[sg.Text('Notification')],
                [sg.Input(key='-in2-')]]
 
 admin_layout = [[sg.Text('Location', background_color='tan1')],
@@ -93,33 +127,32 @@ admin_layout = [[sg.Text('Location', background_color='tan1')],
 
 # tab group
 tab_layout = [[sg.TabGroup([[
-    sg.Tab('Check In', checkin_layout), 
-    sg.Tab('History', history_layout),
+    sg.Tab('Main Page', centered_main_layout), 
     sg.Tab('Notification', notification_layout)]])]] 
 
 # Create the window
 # window = sg.Window("Safe Entry", tab_layout)
 loginwindow = sg.Window("Login", login_layout)
-window = sg.Window("Safe Entry", tab_layout)
+window = sg.Window("Safe Entry", tab_layout,grab_anywhere=True,)
 adminwindow = sg.Window("Admin",admin_layout)
 
 nric = ''
 name = ''
-
 # Create an event loop
 while True:
     login_event, login_values = loginwindow.read()
-    print(login_event, login_values)
+    #print(login_event, login_values)
 
     if login_event == 'Login':
         nric = login_values['-nric_in-']
         name = login_values['-name_in-']
         loginwindow.close()
         window
-    
+
     if name == "admin":
         admin_event, admin_values = adminwindow.read()
         print(admin_event, admin_values)
+        
 
         # End program if user closes window 
         if admin_event == sg.WIN_CLOSED:
@@ -162,6 +195,26 @@ while True:
         if event == "Checkout":
             checkout(name, nric, place, checkin_dt)
             print("CHECKOUT successful")
+       
+        # End program if user closes window 
+        if event == sg.WIN_CLOSED:
+            break
+
+        if event == 'Show Histories':
+            histories = []
+            history(nric)
+            history_windows.create(histories)
+
+        if event == "Checkout":
+            print("CHECKOUT successful")
+
+        if event == "Group Checkin":
+            logging.basicConfig()
+            #groupcheckin(name, nric, place, checkin_dt)
+            print("GROUP CHECKIN successful")
+
+        if event == "Add people":
+            print("ADD PEOPLE successful")
 
 # if __name__ == '__main__':
 #     logging.basicConfig()

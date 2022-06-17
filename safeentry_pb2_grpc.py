@@ -27,8 +27,8 @@ class SafeEntryServiceStub(object):
                 )
         self.History = channel.unary_unary(
                 '/safeentry.SafeEntryService/History',
-                request_serializer=safeentry__pb2.Request.SerializeToString,
-                response_deserializer=safeentry__pb2.Reply.FromString,
+                request_serializer=safeentry__pb2.History_Request.SerializeToString,
+                response_deserializer=safeentry__pb2.History_Reply.FromString,
                 )
         self.Contacted = channel.unary_unary(
                 '/safeentry.SafeEntryService/Contacted',
@@ -80,8 +80,8 @@ def add_SafeEntryServiceServicer_to_server(servicer, server):
             ),
             'History': grpc.unary_unary_rpc_method_handler(
                     servicer.History,
-                    request_deserializer=safeentry__pb2.Request.FromString,
-                    response_serializer=safeentry__pb2.Reply.SerializeToString,
+                    request_deserializer=safeentry__pb2.History_Request.FromString,
+                    response_serializer=safeentry__pb2.History_Reply.SerializeToString,
             ),
             'Contacted': grpc.unary_unary_rpc_method_handler(
                     servicer.Contacted,
@@ -145,8 +145,8 @@ class SafeEntryService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/safeentry.SafeEntryService/History',
-            safeentry__pb2.Request.SerializeToString,
-            safeentry__pb2.Reply.FromString,
+            safeentry__pb2.History_Request.SerializeToString,
+            safeentry__pb2.History_Reply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
