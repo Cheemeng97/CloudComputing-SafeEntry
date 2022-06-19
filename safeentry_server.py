@@ -51,13 +51,25 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
             #filter by user 
             try:
-                #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
-                checkedin_records['checkout_dt']= (checkedin_records.loc[checkedin_records['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
-                #print('break')
-                updated_records = checkedout_records.append(checkedin_records, ignore_index=True)
-                #print(updated_records)
-                #updated_records
-                updated_records.to_csv('./data.csv', index=False)
+                checker = (checkedin_records.loc[checkedin_records['nric'] == request.nric])
+                not_checkedin = (checkedin_records.loc[checkedin_records['nric'] != request.nric])
+                locationchecker = checker.loc[checker['location'] == request.location]
+                different_location = checker.loc[checker['location'] != request.location]
+                if checker.empty:
+                    print("you have not checked in")
+                    return safeentry_pb2.Reply(message='\n Check Out failed. Please ensure that you have checked in.')
+                else:
+                    #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
+                    locationchecker['checkout_dt']= (locationchecker.loc[locationchecker['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
+            
+                    #print('break')
+                    updated_records = locationchecker.append(different_location)
+                    updated_records = updated_records.append(not_checkedin)
+                    updated_records = updated_records.append(checkedout_records, ignore_index=True)
+                    #print (updated_records)
+                    #print(updated_records)
+                    #updated_records
+                    updated_records.to_csv('./data.csv', index=False)
 
             except:
                 print("you have not checked in")

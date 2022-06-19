@@ -251,8 +251,8 @@ while True:
             history(nric)
             history_windows.create(histories)
 
-        if event == "Checkout":
-            print("CHECKOUT successful")
+        #if event == "Checkout":
+        #    print("CHECKOUT successful")
         
         if event == "Add people":
             group_name = values['-group_nric_in-']
