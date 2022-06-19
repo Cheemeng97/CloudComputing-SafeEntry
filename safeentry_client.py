@@ -82,13 +82,14 @@ def check(nric):
 
                 #get date only
                 date = checkin_dt[:10]
+                print(date)
 
-                #calculate 14 days after checkin date
-                days = datetime.datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(days=14)
-                #get date only
-                days = days.strftime('%Y-%m-%d')
+                date = date.strip()
                 
-                contactedmessage = "There was a possible exposure at " + str(location) + " on " + str(date) + ". Please monitor your health from" + str(date)+ " to " + str(days) + ".            checkin_dt: " + str(checkin_dt) + " checkout_dt: " + str(checkout_dt)
+                date_plus_14 = datetime.datetime.strptime(date, "%m/%d/%Y") + datetime.timedelta(days=14)
+                print(date_plus_14)
+                
+                contactedmessage = "There was a possible exposure at " + str(location) + " on " + str(date) + ". Please monitor your health from" + str(date)+ " to " + str(date_plus_14) + ".            checkin_dt: " + str(checkin_dt) + " checkout_dt: " + str(checkout_dt)
                 ctypes.windll.user32.MessageBoxW(0, str(contactedmessage), "Contacted Status", 0)
 
         
