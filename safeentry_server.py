@@ -22,6 +22,7 @@ import safeentry_pb2_grpc
 import pandas as pd
 import datetime
 
+localhost = '[::]:50052'
 
 class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
@@ -64,7 +65,6 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
         except:
             return safeentry_pb2.Reply(message='\n Check Out failed')
         
-
     def Contacted(self, request, context):
         current_records = pd.read_csv('data.csv')
         affectedrecords = current_records.loc[current_records['location'] == request.location]
@@ -82,10 +82,38 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
             #print(affectedrecords)
             updated_records = affectedrecords.append(unaffectedrecords, ignore_index=True)
             updated_records.to_csv('./data.csv', index=False)
+
+            print(updated_records)
         except:
             print("ERROR")
 
         return safeentry_pb2.Reply(message='name: ' + request.name + '\nnric: ' + request.nric + '\nlocation: ' + request.location+ '\ndatetime: ' + request.datetime+ '\n Check Out successful')
+
+    def checkContacted(self, request, context):
+        df = pd.read_csv('data.csv')
+        nric = request.nric
+
+        #filter dataframe by affected = Yes
+        df = df[df['affected'] == 'Y']
+
+        #filter dataframe by nric
+        df = df[df['nric'] == nric]
+
+        #convert all data to string
+        df['checkin_dt'] = df['checkin_dt'].astype(str)
+        df['checkout_dt'] = df['checkout_dt'].astype(str)
+        df['location'] = df['location'].astype(str)
+        df['nric'] = df['nric'].astype(str)
+        df['name'] = df['name'].astype(str)
+
+        data = []
+        for index, row in df.iterrows():
+            data.append((safeentry_pb2.Check_item(name=row['name'], nric=row['nric'], location=row['location'], checkin_dt=row['checkin_dt'], checkout_dt=row['checkout_dt'])))
+
+        print(data)
+            
+        #return data array
+        return safeentry_pb2.Check_Reply(checks=data)
 
     def History(self, request, context):
         #read data from csv file and add into dataframe
@@ -116,7 +144,7 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     safeentry_pb2_grpc.add_SafeEntryServiceServicer_to_server(Safeentry(), server)
-    server.add_insecure_port('[::]:50053')
+    server.add_insecure_port(localhost)
     server.start()
     server.wait_for_termination()
 

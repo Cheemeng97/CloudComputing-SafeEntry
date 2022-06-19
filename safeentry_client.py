@@ -35,24 +35,33 @@ import random
 
 sg.theme('DarkBlue13')
 
+localhost = 'localhost:50052'
+
 def checkin(name, nric, location, checkin_dt):
+<<<<<<< HEAD
     with grpc.insecure_channel('localhost:50053') as channel:
+=======
+    with grpc.insecure_channel(localhost) as channel:
+
+        
+>>>>>>> 74cc8391330688dd6ba79cae8910d2d1a614f0f0
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt))
         ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
 
 def checkout(name, nric, location, checkout_dt):
-    with grpc.insecure_channel('localhost:50053') as channel:
+    with grpc.insecure_channel(localhost) as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkout(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
         ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check Out Status", 0)
 
 def contact(name, nric, location, checkout_dt):
-    with grpc.insecure_channel('localhost:50053') as channel:
+    with grpc.insecure_channel(localhost) as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Contacted(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
         #print("Check In Status ===" + str(response))
 
+<<<<<<< HEAD
 def groupcheckin (grouplist, name, nric, location, checkin_dt):
     randomnumber = random.randint(0,1000)
     for i in grouplist:
@@ -63,11 +72,43 @@ def groupcheckin (grouplist, name, nric, location, checkin_dt):
     print("HENLO")
 
 grouplist = []
+=======
+
+def check(nric):
+    with grpc.insecure_channel(localhost) as channel:
+        stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+        response = stub.checkContacted(safeentry_pb2.Check_Request(nric=nric))
+        check_df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt'])
+
+        for i in range(len(response.checks)):
+            check_df.loc[i] = [response.checks[i].name, response.checks[i].nric, response.checks[i].location, response.checks[i].checkin_dt, response.checks[i].checkout_dt]
+        
+        check_df = check_df.sort_values(by='checkin_dt', ascending=False)
+
+        for i in range(len(check_df)):
+                location = check_df.iloc[i]['location']
+                checkin_dt = check_df.iloc[i]['checkin_dt']
+                checkout_dt = check_df.iloc[i]['checkout_dt']
+
+                #get date only
+                date = checkin_dt[:10]
+
+                #calculate 14 days after checkin date
+                days = datetime.datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(days=14)
+                #get date only
+                days = days.strftime('%Y-%m-%d')
+                
+                contactedmessage = "There was a possible exposure at " + str(location) + " on " + str(date) + ". Please monitor your health from" + str(date)+ " to " + str(days) + ".            checkin_dt: " + str(checkin_dt) + " checkout_dt: " + str(checkout_dt)
+                ctypes.windll.user32.MessageBoxW(0, str(contactedmessage), "Contacted Status", 0)
+
+        
+        
+>>>>>>> 74cc8391330688dd6ba79cae8910d2d1a614f0f0
 
 # #global variable for history
 histories = []
 def history(nric):
-    with grpc.insecure_channel('localhost:50053') as channel:
+    with grpc.insecure_channel(localhost) as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.History(safeentry_pb2.History_Request(nric=nric))
         #put response data into dataframe
@@ -129,10 +170,6 @@ group_checkin_layout = [[sg.Text("SafeEntry Group Check In")],
             [sg.Button("Group Checkin")]
            ]
 
-#Notification tab
-notification_layout = [[sg.Text('Notification')],
-               [sg.Input(key='-in2-')]]
-
 admin_layout = [[sg.Text('Location', background_color='tan1')],
                [sg.Input(key='-closecontact_location-')]
                ,[sg.Text('DateTime', background_color='tan1')],
@@ -140,12 +177,15 @@ admin_layout = [[sg.Text('Location', background_color='tan1')],
                 ,[sg.Button("Notify")]
                ]
 
-
 # tab group
 tab_layout = [[sg.TabGroup([[
+<<<<<<< HEAD
     sg.Tab('Main Page', centered_main_layout), 
     sg.Tab('Notification', notification_layout),
     sg.Tab('Group Check-In',group_checkin_layout)]])]] 
+=======
+    sg.Tab('Main Page', centered_main_layout)]])]] 
+>>>>>>> 74cc8391330688dd6ba79cae8910d2d1a614f0f0
 
 # Create the window
 # window = sg.Window("Safe Entry", tab_layout)
@@ -165,6 +205,9 @@ while True:
         name = login_values['-name_in-']
         loginwindow.close()
         window
+        if name != 'admin':
+            check(nric)
+
 
     if name == "admin":
         admin_event, admin_values = adminwindow.read()
@@ -181,9 +224,11 @@ while True:
             print("Notify Success")
 
     else:
+        
         event, values = window.read()
         print(event, values)
 
+       
         place = "Koufu"
         if values['-place1-']:
             place = "Koufu"
