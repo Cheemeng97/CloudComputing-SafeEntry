@@ -73,7 +73,13 @@ def check(nric):
 
                 #get date only
                 date = checkin_dt[:10]
-                contactedmessage = "You are affected at " + str(location) + " on " + str(date) + ".    checkin_dt: " + str(checkin_dt) + " checkout_dt: " + str(checkout_dt)
+
+                #calculate 14 days after checkin date
+                days = datetime.datetime.strptime(date, '%Y-%m-%d') + datetime.timedelta(days=14)
+                #get date only
+                days = days.strftime('%Y-%m-%d')
+                
+                contactedmessage = "There was a possible exposure at " + str(location) + " on " + str(date) + ". Please monitor your health from" + str(date)+ " to " + str(days) + ".            checkin_dt: " + str(checkin_dt) + " checkout_dt: " + str(checkout_dt)
                 ctypes.windll.user32.MessageBoxW(0, str(contactedmessage), "Contacted Status", 0)
 
         
