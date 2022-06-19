@@ -27,12 +27,12 @@ localhost = '[::]:50052'
 class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
 
     def Checkin(self, request, context):
-
+        
         #if failed to check in, return error message
         try:
             #add request data into pandas dataframe
-            df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected'])
-            df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None]
+            df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected','group_id'])
+            df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None,request.groupid]
             
             #write dataframe to csv file
             df.to_csv('./data.csv', mode='a', index=False, header=False)

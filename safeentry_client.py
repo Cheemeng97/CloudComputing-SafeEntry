@@ -30,16 +30,17 @@ from tkinter import *
 
 import ctypes
 
+import random
+
+
 sg.theme('DarkBlue13')
 
 localhost = 'localhost:50052'
 
 def checkin(name, nric, location, checkin_dt):
     with grpc.insecure_channel(localhost) as channel:
-
-        
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
-        response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt))
+        response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt, groupid=None))
         ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
 
 def checkout(name, nric, location, checkout_dt):
@@ -53,6 +54,14 @@ def contact(name, nric, location, checkout_dt):
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Contacted(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
         #print("Check In Status ===" + str(response))
+        
+def group_checkin(group_info, location, checkin_dt):
+    groupid = random.randint(1,1000)
+    for i in group_info:
+        with grpc.insecure_channel(localhost) as channel:
+            stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+            response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=i[0], nric=i[1], location=location, datetime=checkin_dt, groupid=groupid))
+            ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
 
 
 def check(nric):
@@ -87,6 +96,7 @@ def check(nric):
 
 # #global variable for history
 histories = []
+group_info = []
 def history(nric):
     with grpc.insecure_channel(localhost) as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
@@ -159,7 +169,8 @@ admin_layout = [[sg.Text('Location', background_color='tan1')],
 
 # tab group
 tab_layout = [[sg.TabGroup([[
-    sg.Tab('Main Page', centered_main_layout)]])]] 
+    sg.Tab('Main Page', centered_main_layout),
+    sg.Tab('Group Check In',group_checkin_layout)]])]] 
 
 # Create the window
 # window = sg.Window("Safe Entry", tab_layout)
@@ -204,13 +215,13 @@ while True:
 
        
         place = "Koufu"
-        if values['-place1-']:
+        if values['-place1-'] or values['-group_place1-']:
             place = "Koufu"
-        elif values['-place2-']:
+        elif values['-place2-'] or values['-group_place2-']:
             place = "Foodgle"
-        elif values['-place3-']:
+        elif values['-place3-'] or values['-group_place3-']:
             place = "South Canteen"
-        elif values['-place4-']:
+        elif values['-place4-'] or values['-group_place4-']:
             place = "North Canteen"
         else:
             place = "Koufu"
@@ -242,14 +253,24 @@ while True:
 
         if event == "Checkout":
             print("CHECKOUT successful")
+        
+        if event == "Add people":
+            group_name = values['-group_nric_in-']
+            group_nric = values['-group_name_in-']
+            group_details = [group_name, group_nric]
+            group_info.append(group_details)
+            print("ADD PEOPLE successful")
 
         if event == "Group Checkin":
             logging.basicConfig()
-            #groupcheckin(name, nric, place, checkin_dt)
+            group_details = [name, nric]
+            group_info.append(group_details)
+            for i in group_details:
+                print("name " + i[0]+ " nric " + i[1])
+            group_checkin(group_info, place, checkin_dt)
             print("GROUP CHECKIN successful")
 
-        if event == "Add people":
-            print("ADD PEOPLE successful")
+ 
 
 # if __name__ == '__main__':
 #     logging.basicConfig()
