@@ -30,9 +30,8 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
         #if failed to check in, return error message
         try:
             #add request data into pandas dataframe
-            df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected'])
-            df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None]
-            
+            df = pd.DataFrame(columns=['name', 'nric', 'location', 'checkin_dt','checkout_dt','affected','GroupId'])
+            df.loc[0] = [request.name, request.nric, request.location, request.datetime, None,None,request.groupid]
             #write dataframe to csv file
             df.to_csv('./data.csv', mode='a', index=False, header=False)
             return safeentry_pb2.CheckIn_Reply(message='\n Check in successful   ' + 'name: ' + request.name + '   nric: ' + request.nric + '   location: ' + request.location+ '   datetime: ' + request.datetime)
@@ -77,7 +76,7 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
         #print(affectedrecords.dtypes)
         #print(affectedrecords)
         try:
-            affectedrecords['affected']= (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'].fillna("Y")
+            #affectedrecords['affected']= (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'].fillna("Y")
             #print(affectedrecords)
             (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'] = "Y"
             #print(affectedrecords)

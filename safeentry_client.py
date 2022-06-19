@@ -29,13 +29,14 @@ import history_windows
 from tkinter import *
 
 import ctypes
+import random
+
+
 
 sg.theme('DarkBlue13')
 
 def checkin(name, nric, location, checkin_dt):
     with grpc.insecure_channel('localhost:50053') as channel:
-
-        
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=name, nric=nric, location=location, datetime=checkin_dt))
         ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
@@ -51,6 +52,17 @@ def contact(name, nric, location, checkout_dt):
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
         response = stub.Contacted(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
         #print("Check In Status ===" + str(response))
+
+def groupcheckin (grouplist, name, nric, location, checkin_dt):
+    randomnumber = random.randint(0,1000)
+    for i in grouplist:
+        with grpc.insecure_channel('localhost:50053') as channel:
+            stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
+            response = stub.Checkin(safeentry_pb2.CheckIn_Request(name=i[0], nric=i[1], location=location, datetime=checkin_dt,groupid=randomnumber))
+            ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
+    print("HENLO")
+
+grouplist = []
 
 # #global variable for history
 histories = []
@@ -132,7 +144,8 @@ admin_layout = [[sg.Text('Location', background_color='tan1')],
 # tab group
 tab_layout = [[sg.TabGroup([[
     sg.Tab('Main Page', centered_main_layout), 
-    sg.Tab('Notification', notification_layout)]])]] 
+    sg.Tab('Notification', notification_layout),
+    sg.Tab('Group Check-In',group_checkin_layout)]])]] 
 
 # Create the window
 # window = sg.Window("Safe Entry", tab_layout)
@@ -157,7 +170,6 @@ while True:
         admin_event, admin_values = adminwindow.read()
         print(admin_event, admin_values)
         
-
         # End program if user closes window 
         if admin_event == sg.WIN_CLOSED:
             break
@@ -209,16 +221,28 @@ while True:
             history(nric)
             history_windows.create(histories)
 
-        if event == "Checkout":
-            print("CHECKOUT successful")
+        #if event == "Checkout":
+        #print("CHECKOUT successful")
+      
+        if event == "Add people":
+            person_nric = values['-group_nric_in-']
+            person_name = values['-group_name_in-']
+            person_details = [person_name,person_nric]
+            #groupcheckin(grouplist,nric,place, checkin_dt)
+            grouplist.append(person_details)
+            print (grouplist)
+            print(person_name + "added successful")
+
 
         if event == "Group Checkin":
             logging.basicConfig()
-            #groupcheckin(name, nric, place, checkin_dt)
+            print("check")
+            print(grouplist)
+            groupcheckin(grouplist, name, nric, place, checkin_dt)
             print("GROUP CHECKIN successful")
 
-        if event == "Add people":
-            print("ADD PEOPLE successful")
+
+
 
 # if __name__ == '__main__':
 #     logging.basicConfig()
