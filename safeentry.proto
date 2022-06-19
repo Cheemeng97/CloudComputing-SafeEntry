@@ -22,6 +22,7 @@ service SafeEntryService {
   rpc Checkout (Request) returns (Reply) {}
   rpc History (History_Request) returns (History_Reply) {}
   rpc Contacted (Request) returns (Reply) {}
+  rpc checkContacted (Check_Request) returns (Check_Reply) {}
 }
 
 // The request message containing check in details
@@ -58,6 +59,25 @@ message History_Reply {
 }
 
 message History_Item {
+  string name = 1;
+  string nric = 2;
+  string location = 3;
+  string checkin_dt = 4;
+  string checkout_dt = 5;
+}
+
+// The request message containing status of check in and details.
+message Check_Request {
+  string nric = 1;
+}
+
+// The response message containing status of check in and details.
+message Check_Reply {
+  repeated Check_item checks = 1;
+}
+
+// The check item
+message Check_item {
   string name = 1;
   string nric = 2;
   string location = 3;
