@@ -1,11 +1,20 @@
 name,nric,location,checkin_dt,checkout_dt,affected,groupid
-amandalim,amandalim,Koufu,2022-06-21 12:31:49,2022-06-21 12:33:50,Y,0
-kimmmm,kimmm,Koufu,2022-06-21 12:33:11,2022-06-21 12:33:50,Y,0
-amandalim,amandalim,Koufu,2022-06-21 12:31:49,,Y,0
-amanda,amanda,Koufu,2022-06-21 12:06:00,2022-06-21 12:06:00,Y,0
-amanda,amanda,Koufu,2022-06-21 12:05:00,2022-06-21 12:06:00,Y,0
-vanessa,vannessa,North Canteen,2022-06-21 12:21:35,,,551
-lihui,lihui,South Canteen,2022-06-21 12:19:37,,,878
+sam,sam,Foodgle,6/19/2022 23:52,,,424
+eric,eric,Foodgle,6/19/2022 23:52,,,424
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+ad,ad,Foodgle,6/19/2022 23:56,,,487
+aa,aa,Foodgle,6/19/2022 23:56,,,487
+kim,kim,Foodgle,6/19/2022 23:48,2022-06-21 13:19:41,,0
+sam,sam,Foodgle,6/19/2022 23:52,,,424
+eric,eric,Foodgle,6/19/2022 23:52,,,424
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+ad,ad,Foodgle,6/19/2022 23:56,,,487
+aa,aa,Foodgle,6/19/2022 23:56,,,487
+770z,Chee meng,Foodgle,2022-06-21 12:40:35,,,468
+Audrey,123,Foodgle,2022-06-21 12:40:35,,,468
+s,s,Foodgle,2022-06-21 13:19:40,2022-06-21 13:19:41,,0
 sam,sam,Foodgle,6/19/2022 23:52,,,424
 eric,eric,Foodgle,6/19/2022 23:52,,,424
 kimly,kimly,Foodgle,6/19/2022 23:55,,,433
@@ -19,10 +28,26 @@ kimly,kimly,Foodgle,6/19/2022 23:55,,,433
 kimly,kimly,Foodgle,6/19/2022 23:55,,,433
 ad,ad,Foodgle,6/19/2022 23:56,,,487
 aa,aa,Foodgle,6/19/2022 23:56,,,487
+770z,Chee meng,Foodgle,2022-06-21 12:40:35,,,468
+Audrey,123,Foodgle,2022-06-21 12:40:35,,,468
+amandalim,amandalim,Koufu,2022-06-21 12:31:49,,Y,0
+vanessa,vannessa,North Canteen,2022-06-21 12:21:35,,,551
+lihui,lihui,South Canteen,2022-06-21 12:19:37,,,878
 lili,lili,South Canteen,2022-06-21 12:31:59,,,0
+Amanda,885A,Koufu,6/21/202212:31,,,0
+Amanda,885A,Koufu,6/21/202212:32,,,0
+Amanda,885A,Koufu,6/21/202212:34,,,0
+Amanda,885A,Koufu,6/21/202212:34,,,0
+Amanda,885A,Koufu,6/21/202212:34,,,0
+amandalim,amandalim,Koufu,2022-06-21 12:31:49,2022-06-21 12:33:50,Y,0
+kimmmm,kimmm,Koufu,2022-06-21 12:33:11,2022-06-21 12:33:50,Y,0
+amanda,amanda,Koufu,2022-06-21 12:06:00,2022-06-21 12:06:00,Y,0
+amanda,amanda,Koufu,2022-06-21 12:05:00,2022-06-21 12:06:00,Y,0
 vanessa,vannessa,North Canteen,2022-06-21 12:21:35,2022-06-21 12:21:55,,551
 kelvin,kelvin,North Canteen,2022-06-21 12:21:35,2022-06-21 12:21:55,,551
 lihui,lihui,South Canteen,2022-06-21 12:19:37,2022-06-21 12:20:28,,878
 amanda,amanda1,South Canteen,2022-06-21 12:19:37,2022-06-21 12:20:28,,878
 kim,kim,Foodgle,6/19/2022 23:48,2022-06-21 12:19:17,,0
 amanda,amanda1,Foodgle,2022-06-21 12:19:15,2022-06-21 12:19:17,,0
+Amanda,885A,Koufu,6/21/202212:34,,,0
+AmandaLim,885A,Koufu,6/21/202212:37,,,0
