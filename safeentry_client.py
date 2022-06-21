@@ -64,6 +64,10 @@ def group_checkin(group_info, location, checkin_dt):
             ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check In Status", 0)
 
 
+
+
+
+
 def check(nric):
     with grpc.insecure_channel(localhost) as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)

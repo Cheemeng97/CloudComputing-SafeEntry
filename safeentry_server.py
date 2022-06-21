@@ -52,15 +52,17 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
             
             #filter by user 
             try:
+                group_message = " "
                 checker = (checkedin_records.loc[checkedin_records['location'] == request.location])
                 not_checkedin = (checkedin_records.loc[checkedin_records['location'] != request.location])
                 locationchecker = checker.loc[checker['nric'] == request.nric]
                 different_location = checker.loc[checker['nric'] != request.nric]
-                if checker.empty:
+                print("CHECKER")
+                print(locationchecker)
+                if locationchecker.empty:
                     print("you have not checked in")
                     return safeentry_pb2.Reply(message='\n Check Out failed. Please ensure that you have checked in.')
                 else:
-            
                     group_locator = locationchecker.loc[locationchecker['groupid'] != "0"]
                     print()
                     print("GROUP LOCATOR")
@@ -68,20 +70,25 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
                     locationchecker['checkout_dt']= (locationchecker.loc[locationchecker['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
                     locationchecker = locationchecker.reset_index()
 
-                   
                     if group_locator.empty:
                         #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
-                       
                         print("EMPTY")
                         print(group_locator)
                         updated_records = locationchecker.append(different_location)
+                        group_message='\n Check out successful   ' + 'name: ' + request.name + '   nric: ' + request.nric + '   location: ' + request.location+ '   datetime: ' + request.datetime
                     else:
                         print(checker)
     
                         checker['checkout_dt']= (checker.loc[checker['groupid'] == (locationchecker['groupid'][0])])['checkout_dt'].fillna(request.datetime)
                         print(checker)
+                    
                         print(request.groupid)
+                        group_df = (checker.loc[checker['groupid'] == (locationchecker['groupid'][0])])
                         print("NOT EMPTY")
+                        for index, row in group_df.iterrows():
+                            print(row['name'] + " "+ row['nric'])
+                            group_message= group_message +'\n Check out successful   ' + 'name: ' +row['name'] + '   nric: ' + row['nric'] + '   location: ' + request.location+ '   datetime: ' + request.datetime
+                        
                     updated_records = checker.append(different_location)
 
                     updated_records = updated_records.append(not_checkedin)
@@ -98,7 +105,7 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
             except:
                 print("you have not checked in")
 
-            return safeentry_pb2.Reply(message='\n Check out successful   ' + 'name: ' + request.name + '   nric: ' + request.nric + '   location: ' + request.location+ '   datetime: ' + request.datetime)
+            return safeentry_pb2.Reply(message = group_message)
         except:
             return safeentry_pb2.Reply(message='\n Check Out failed')
         

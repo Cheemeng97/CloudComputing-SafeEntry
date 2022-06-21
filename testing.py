@@ -36,9 +36,42 @@ To run on terminal
 python testing.py checkin name nric location checkin_time 
 
 '''
-from safeentry_client import checkin
+import safeentry_client
+
+successmessage = "Check data.csv to view entry. Ensure you close the file before carrying on. \nClick anywhere to carry on."
+failuremessage = "Type Y or exit"
 
 
 if __name__ == '__main__':
-    function_call = "safeentry_client." + sys.argv[1]
-    checkin(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5]+" " +sys.argv[6])
+    now = datetime.datetime.now()
+    checkin_dt = now.strftime("%Y-%m-%d %H:%M:%S")
+    
+    print("-----Testing Proceedure ------------")
+    print('1. Check in \n2. Check out \n3. Group Check in \n4. Group Check Out \n5. Admin \n. History \n. Notifications')
+    print("Scenario \nYou are Amanda (885A) checking into Koufu right now. You will be able to view a success pop up")
+    safeentry_client.checkin("Amanda1","8852A","South",checkin_dt)
+    input(successmessage)
+    print("Scenario \nYou are Amanda (885A) checking out of Koufu right now. You will be able to view a success pop up")
+    safeentry_client.checkout("Amanda1","8852A","South",checkin_dt)
+    input(successmessage)
+    print("Scenario \nYou are Amanda (885A) checking out of Foodgle right now. You will be able to view a fail pop up")
+    safeentry_client.checkout("Amanda1","8852A","Foodgle",checkin_dt)
+    input(successmessage)
+    print("Scenario \nYou are logging in your family member Tim (887A) into South Canteen with you.You should see 2 success pop up.")
+    group_info = [["Amanda","8852A"],["Tim","887A"]]
+    safeentry_client.group_checkin(group_info,"Foodgle",checkin_dt)
+    print("Scenario \nYou are checking out your family member Tim (887A) from South Canteen with you.You should see 2 success pop up.")
+    group_info = [["Amanda","8852A"],["Tim","887A"]]
+    safeentry_client.checkout("Amanda1","8852A","Foodgle",checkin_dt)
+
+    
+
+
+
+
+
+
+
+    #function_call = "safeentry_client." + sys.argv[1]
+
+    #checkin(sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5]+" " +sys.argv[6])
