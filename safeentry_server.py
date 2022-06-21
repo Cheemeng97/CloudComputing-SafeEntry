@@ -115,7 +115,7 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
         try:
             affectedrecords['affected']= (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'].fillna("Y")
             #print(affectedrecords)
-            (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'] = "Y"
+            affectedrecords['affected']= (affectedrecords.loc[(affectedrecords['checkin_dt'] <= affecteddate) & (affecteddate <= affectedrecords['checkout_dt'])])['affected'] = "Y"
             #print(affectedrecords)
             updated_records = affectedrecords.append(unaffectedrecords, ignore_index=True)
             updated_records.to_csv('./data.csv', index=False)
