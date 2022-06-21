@@ -90,7 +90,7 @@ def check(nric):
 
                 date = date.strip()
                 
-                date_plus_14 = datetime.datetime.strptime(date, "%m/%d/%Y") + datetime.timedelta(days=14)
+                date_plus_14 = datetime.datetime.strptime(date, "%Y-%m-%d") + datetime.timedelta(days=14)
                 print(date_plus_14)
                 
                 contactedmessage = "There was a possible exposure at " + str(location) + " on " + str(date) + ". Please monitor your health from" + str(date)+ " to " + str(date_plus_14) + ".            checkin_dt: " + str(checkin_dt) + " checkout_dt: " + str(checkout_dt)
@@ -121,7 +121,8 @@ def history(nric):
         for i in range(len(history_df)):
             histories.append([history_df.iloc[i]['name'], history_df.iloc[i]['nric'], history_df.iloc[i]['location'], history_df.iloc[i]['checkin_dt'], history_df.iloc[i]['checkout_dt']])
             
-        print(histories)
+        for i in range(len(histories)):
+            print(histories[i])
 
 
 
