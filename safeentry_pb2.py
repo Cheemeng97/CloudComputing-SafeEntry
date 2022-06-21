@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fsafeentry.proto\x12\tsafeentry\"b\n\x0f\x43heckIn_Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\x12\x0f\n\x07groupid\x18\x05 \x01(\x05\" \n\rCheckIn_Reply\x12\x0f\n\x07message\x18\x01 \x01(\t\"I\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\"\x18\n\x05Reply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0fHistory_Request\x12\x0c\n\x04nric\x18\x01 \x01(\t\";\n\rHistory_Reply\x12*\n\thistories\x18\x01 \x03(\x0b\x32\x17.safeentry.History_Item\"e\n\x0cHistory_Item\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x12\n\ncheckin_dt\x18\x04 \x01(\t\x12\x13\n\x0b\x63heckout_dt\x18\x05 \x01(\t\"\x1d\n\rCheck_Request\x12\x0c\n\x04nric\x18\x01 \x01(\t\"4\n\x0b\x43heck_Reply\x12%\n\x06\x63hecks\x18\x01 \x03(\x0b\x32\x15.safeentry.Check_item\"c\n\nCheck_item\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x12\n\ncheckin_dt\x18\x04 \x01(\t\x12\x13\n\x0b\x63heckout_dt\x18\x05 \x01(\t2\xc7\x02\n\x10SafeEntryService\x12\x41\n\x07\x43heckin\x12\x1a.safeentry.CheckIn_Request\x1a\x18.safeentry.CheckIn_Reply\"\x00\x12\x32\n\x08\x43heckout\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x41\n\x07History\x12\x1a.safeentry.History_Request\x1a\x18.safeentry.History_Reply\"\x00\x12\x33\n\tContacted\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x44\n\x0e\x63heckContacted\x12\x18.safeentry.Check_Request\x1a\x16.safeentry.Check_Reply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fsafeentry.proto\x12\tsafeentry\"b\n\x0f\x43heckIn_Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\x12\x0f\n\x07groupid\x18\x05 \x01(\x05\" \n\rCheckIn_Reply\x12\x0f\n\x07message\x18\x01 \x01(\t\"Z\n\x07Request\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x10\n\x08\x64\x61tetime\x18\x04 \x01(\t\x12\x0f\n\x07groupid\x18\x05 \x01(\x05\"\x18\n\x05Reply\x12\x0f\n\x07message\x18\x01 \x01(\t\"\x1f\n\x0fHistory_Request\x12\x0c\n\x04nric\x18\x01 \x01(\t\";\n\rHistory_Reply\x12*\n\thistories\x18\x01 \x03(\x0b\x32\x17.safeentry.History_Item\"e\n\x0cHistory_Item\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x12\n\ncheckin_dt\x18\x04 \x01(\t\x12\x13\n\x0b\x63heckout_dt\x18\x05 \x01(\t\"\x1d\n\rCheck_Request\x12\x0c\n\x04nric\x18\x01 \x01(\t\"4\n\x0b\x43heck_Reply\x12%\n\x06\x63hecks\x18\x01 \x03(\x0b\x32\x15.safeentry.Check_item\"c\n\nCheck_item\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04nric\x18\x02 \x01(\t\x12\x10\n\x08location\x18\x03 \x01(\t\x12\x12\n\ncheckin_dt\x18\x04 \x01(\t\x12\x13\n\x0b\x63heckout_dt\x18\x05 \x01(\t2\xc7\x02\n\x10SafeEntryService\x12\x41\n\x07\x43heckin\x12\x1a.safeentry.CheckIn_Request\x1a\x18.safeentry.CheckIn_Reply\"\x00\x12\x32\n\x08\x43heckout\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x41\n\x07History\x12\x1a.safeentry.History_Request\x1a\x18.safeentry.History_Reply\"\x00\x12\x33\n\tContacted\x12\x12.safeentry.Request\x1a\x10.safeentry.Reply\"\x00\x12\x44\n\x0e\x63heckContacted\x12\x18.safeentry.Check_Request\x1a\x16.safeentry.Check_Reply\"\x00\x62\x06proto3')
 
 
 
@@ -107,21 +107,21 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _CHECKIN_REPLY._serialized_start=130
   _CHECKIN_REPLY._serialized_end=162
   _REQUEST._serialized_start=164
-  _REQUEST._serialized_end=237
-  _REPLY._serialized_start=239
-  _REPLY._serialized_end=263
-  _HISTORY_REQUEST._serialized_start=265
-  _HISTORY_REQUEST._serialized_end=296
-  _HISTORY_REPLY._serialized_start=298
-  _HISTORY_REPLY._serialized_end=357
-  _HISTORY_ITEM._serialized_start=359
-  _HISTORY_ITEM._serialized_end=460
-  _CHECK_REQUEST._serialized_start=462
-  _CHECK_REQUEST._serialized_end=491
-  _CHECK_REPLY._serialized_start=493
-  _CHECK_REPLY._serialized_end=545
-  _CHECK_ITEM._serialized_start=547
-  _CHECK_ITEM._serialized_end=646
-  _SAFEENTRYSERVICE._serialized_start=649
-  _SAFEENTRYSERVICE._serialized_end=976
+  _REQUEST._serialized_end=254
+  _REPLY._serialized_start=256
+  _REPLY._serialized_end=280
+  _HISTORY_REQUEST._serialized_start=282
+  _HISTORY_REQUEST._serialized_end=313
+  _HISTORY_REPLY._serialized_start=315
+  _HISTORY_REPLY._serialized_end=374
+  _HISTORY_ITEM._serialized_start=376
+  _HISTORY_ITEM._serialized_end=477
+  _CHECK_REQUEST._serialized_start=479
+  _CHECK_REQUEST._serialized_end=508
+  _CHECK_REPLY._serialized_start=510
+  _CHECK_REPLY._serialized_end=562
+  _CHECK_ITEM._serialized_start=564
+  _CHECK_ITEM._serialized_end=663
+  _SAFEENTRYSERVICE._serialized_start=666
+  _SAFEENTRYSERVICE._serialized_end=993
 # @@protoc_insertion_point(module_scope)

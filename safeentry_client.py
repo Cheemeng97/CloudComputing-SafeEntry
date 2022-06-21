@@ -46,7 +46,7 @@ def checkin(name, nric, location, checkin_dt):
 def checkout(name, nric, location, checkout_dt):
     with grpc.insecure_channel(localhost) as channel:
         stub = safeentry_pb2_grpc.SafeEntryServiceStub(channel)
-        response = stub.Checkout(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt))
+        response = stub.Checkout(safeentry_pb2.Request(name=name, nric=nric, location=location, datetime=checkout_dt,groupid=groupid))
         ctypes.windll.user32.MessageBoxW(0, str(response.message), "Check Out Status", 0)
 
 def contact(name, nric, location, checkout_dt):
@@ -96,6 +96,7 @@ def check(nric):
         
 
 # #global variable for history
+groupid = 0
 histories = []
 group_info = []
 def history(nric):
@@ -158,7 +159,7 @@ group_checkin_layout = [[sg.Text("SafeEntry Group Check In")],
             sg.Radio('South Canteen', 'place', key='-group_place3-'),
             sg.Radio('North Canteen', 'place', key='-group_place4-')], 
                 
-            [sg.Button("Group Checkin")]
+            [sg.Button("Group Checkin"), sg.Button("Group Checkout")]
            ]
 
 admin_layout = [[sg.Text('Location', background_color='tan1')],
@@ -270,6 +271,11 @@ while True:
                 print("name " + i[0]+ " nric " + i[1])
             group_checkin(group_info, place, checkin_dt)
             print("GROUP CHECKIN successful")
+        
+        if event == "Group Checkout":
+            logging.basicConfig()
+            checkout(name, nric, place, checkin_dt)
+           
 
  
 

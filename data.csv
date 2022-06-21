@@ -1,14 +1,24 @@
 name,nric,location,checkin_dt,checkout_dt,affected,groupid
-chee meng,770z,South Canteen,6/14/2022 13:06,6/14/2022 13:45,Y,
-chee meng,770z,South Canteen,6/14/2022 16:06,6/14/2022 16:45,,
-chee meng,770z,South Canteen,6/14/2022 19:06,6/14/2022 19:45,,
-chee meng,770z,South Canteen,6/14/2022 13:10,6/14/2022 13:30,Y,
-asdf,770z,Foodgle,6/17/2022 11:05,6/17/2022 11:05,,
-chee meng,770z,Foodgle,6/17/2022 20:45,6/17/2022 20:45,,
-auds,111,Koufu,6/17/2022 23:21,6/17/2022 23:21,Y,
-asdf,770z,Koufu,6/19/2022 10:51,6/19/2022 11:51,,
-asdf,770z,Koufu,6/19/2022 10:52,6/19/2022 11:51,,
-adsf,770z,Koufu,6/19/2022 10:59,6/19/2022 11:51,,
-asd,770z,Koufu,6/19/2022 11:51,6/19/2022 11:51,,
-asdf,770z,Koufu,6/19/2022 11:52,6/19/2022 11:52,,
-asdf,770z,Koufu,6/19/2022 12:30,6/19/2022 12:30,,
+vanessa,vannessa,North Canteen,2022-06-21 12:21:35,2022-06-21 12:21:55,,551
+kelvin,kelvin,North Canteen,2022-06-21 12:21:35,2022-06-21 12:21:55,,551
+vanessa,vannessa,North Canteen,2022-06-21 12:21:35,,,551
+lihui,lihui,South Canteen,2022-06-21 12:19:37,,,878
+sam,sam,Foodgle,6/19/2022 23:52,,,424
+eric,eric,Foodgle,6/19/2022 23:52,,,424
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+ad,ad,Foodgle,6/19/2022 23:56,,,487
+aa,aa,Foodgle,6/19/2022 23:56,,,487
+kim,kim,Foodgle,6/19/2022 23:48,,,0
+sam,sam,Foodgle,6/19/2022 23:52,,,424
+eric,eric,Foodgle,6/19/2022 23:52,,,424
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+kimly,kimly,Foodgle,6/19/2022 23:55,,,433
+ad,ad,Foodgle,6/19/2022 23:56,,,487
+aa,aa,Foodgle,6/19/2022 23:56,,,487
+lihui,lihui,South Canteen,2022-06-21 12:19:37,2022-06-21 12:20:28,,878
+amanda,amanda1,South Canteen,2022-06-21 12:19:37,2022-06-21 12:20:28,,878
+kim,kim,Foodgle,6/19/2022 23:48,2022-06-21 12:19:17,,0
+amanda,amanda1,Foodgle,2022-06-21 12:19:15,2022-06-21 12:19:17,,0
+amanda,amanda,Koufu,6/21/2022 12:06,6/21/2022 12:06,Y,0
+amanda,amanda,Koufu,6/21/2022 12:05,6/21/2022 12:06,,0

@@ -49,23 +49,47 @@ class Safeentry(safeentry_pb2_grpc.SafeEntryServiceServicer):
             checkedout_records = current_records[current_records['checkout_dt'].notnull()]
             #print(checkedin_records)
 
+            
             #filter by user 
             try:
-                checker = (checkedin_records.loc[checkedin_records['nric'] == request.nric])
-                not_checkedin = (checkedin_records.loc[checkedin_records['nric'] != request.nric])
-                locationchecker = checker.loc[checker['location'] == request.location]
-                different_location = checker.loc[checker['location'] != request.location]
+                checker = (checkedin_records.loc[checkedin_records['location'] == request.location])
+                not_checkedin = (checkedin_records.loc[checkedin_records['location'] != request.location])
+                locationchecker = checker.loc[checker['nric'] == request.nric]
+                different_location = checker.loc[checker['nric'] != request.nric]
                 if checker.empty:
                     print("you have not checked in")
                     return safeentry_pb2.Reply(message='\n Check Out failed. Please ensure that you have checked in.')
                 else:
-                    #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
-                    locationchecker['checkout_dt']= (locationchecker.loc[locationchecker['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
             
-                    #print('break')
-                    updated_records = locationchecker.append(different_location)
+                    group_locator = locationchecker.loc[locationchecker['groupid'] != "0"]
+                    print()
+                    print("GROUP LOCATOR")
+                    print(group_locator)
+                    locationchecker['checkout_dt']= (locationchecker.loc[locationchecker['nric'] == request.nric])['checkout_dt'].fillna(request.datetime)
+                    locationchecker = locationchecker.reset_index()
+
+                   
+                    if group_locator.empty:
+                        #print(checkedin_records[checkedin_records.loc[checkedin_records['nric'] == request.nric & checkedin_records['location'] == request.location]])
+                       
+                        print("EMPTY")
+                        print(group_locator)
+                        updated_records = locationchecker.append(different_location)
+                    else:
+                        print(checker)
+    
+                        checker['checkout_dt']= (checker.loc[checker['groupid'] == (locationchecker['groupid'][0])])['checkout_dt'].fillna(request.datetime)
+                        print(checker)
+                        print(request.groupid)
+                        print("NOT EMPTY")
+                    updated_records = checker.append(different_location)
+
                     updated_records = updated_records.append(not_checkedin)
                     updated_records = updated_records.append(checkedout_records, ignore_index=True)
+                    #updated_records = updated_records.drop_duplicates()
+                    print(updated_records)
+
+                    #print('break')
                     #print (updated_records)
                     #print(updated_records)
                     #updated_records
